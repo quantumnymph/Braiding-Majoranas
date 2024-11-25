@@ -1,0 +1,69 @@
+* {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: serif;
+}
+
+h1 {
+    text-align: left;
+    text-justify: left;
+    font-size: 3em;
+    margin-top: 3%;
+    font-family: "Hepta Slab", serif;
+}
+
+p {
+    margin-top: 2%;
+    margin-bottom: 4%;
+    font-size: larger;
+    text-align: justify;
+    font-family: "Gantari", sans-serif;
+}
+
+
+#inputs {
+    margin-bottom: 20px;
+    display: auto;
+    font-family: "Gantari", sans-serif;
+    }
+
+    input {
+        margin: 1px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1em;
+        font-family: inherit;
+}
+
+button {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: inherit;
+}
+
+#row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2%;
+}
+
+#matrix {
+    text-align: center;
+    align-content: center;
+}
+
+svg {
+    float: left;
+    background-color: white;
+    margin-top: -4%;
+    margin-left: -5%;
+    scale: 0.8;
+}

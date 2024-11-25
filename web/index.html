@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Majorana Exchange Animation</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab:wght@1..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gantari:ital,wght@0,100..900;1,100..900&family=Hepta+Slab:wght@1..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Braiding Majorana <br>u Kitaevljevim lancima</h1>
+     
+    <p>
+        Majorana fermionima nazivamo kvazičestice na rubovima Kitaevljevog lanca u topološkoj fazi. 
+        Ove čestice su neabelovi anyon-i, odnosno posjeduju svojstvo da njihova zamjena u prostoru ima 
+        netrivijalan učinak na valnu funkciju sustava. Ovo je interaktivna simulacija koja pokazuje efekt 
+        zamjene mjesta odabranih Majorana koristeći T-spojeve, te učinak iste u matričnom obliku kao operator 
+        na sustav dvaju kubita.
+    </p>  
+    <br>
+    <br>
+    <div id="inputs">
+        <label for="i">Indeks 1. Majorane (0-3):</label>
+        <input type="number" id="i" min="0" max="3" value="0">
+        <br>
+        <label for="j">Indeks 2. Majorane (0-3):</label>
+        <input type="number" id="j" min="0" max="3" value="1">
+        <br>
+        <br>
+        <button onclick="startExchange()">Izvrši zamjenu</button>
+    </div>
+
+    <div id = "row">
+        <div id="animation">
+
+        <script src="script.js"></script>
+        </div>
+
+        <div id="matrix">
+            <h3>Matrica operatora zamjene</h3>
+        </div>
+    </div>
+
+    <p>
+        Matrice zamjene su unitarne matrice dimenzija 4x4. U nastavku su navedene matrice za zamjenu najbližih
+        susjeda, a ostale zamjene postižu se kompozicijom više ovakvih zamjena.
+    </p>
+    <br>
+    <br>
+
+</body>
+</html>
