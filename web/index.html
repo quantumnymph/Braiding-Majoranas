@@ -15,26 +15,23 @@
 </head>
 <body>
     <h1>Braiding Majorana <br>u Kitaevljevim lancima</h1>
-     
-    <p>
-        Majorana fermionima nazivamo kvazičestice na rubovima Kitaevljevog lanca u topološkoj fazi. 
-        Ove čestice su neabelovi anyon-i, odnosno posjeduju svojstvo da njihova zamjena u prostoru ima 
-        netrivijalan učinak na valnu funkciju sustava. Ovo je interaktivna simulacija koja pokazuje efekt 
-        zamjene mjesta odabranih Majorana koristeći T-spojeve, te učinak iste u matričnom obliku kao operator 
-        na sustav dvaju kubita.
-    </p>  
-    <br>
+    <p style="margin-top: 1%; margin-bottom: 0%; margin-left: 0%;"><i style="margin: 0%;">Interaktivna simulacija za razumijevanje braiding-a kao osnove topološkog kvantnog računanja</i></p>
+    <hr style="margin-top: 0%;">
     <br>
     <div id="inputs">
-        <label for="i">Indeks 1. Majorane (0-3):</label>
-        <input type="number" id="i" min="0" max="3" value="0">
-        <br>
-        <label for="j">Indeks 2. Majorane (0-3):</label>
-        <input type="number" id="j" min="0" max="3" value="1">
-        <br>
-        <br>
-        <button onclick="startExchange()">Izvrši zamjenu</button>
+        <div class="input-group-container">
+            <div class="input-group">
+                <label for="i">Indeks 1. Majorane (0-3):</label>
+                <input type="number" id="i" min="0" max="3" value="0">
+            </div>
+            <div class="input-group">
+                <label for="j">Indeks 2. Majorane (0-3):</label>
+                <input type="number" id="j" min="0" max="3" value="1">
+            </div>
+        </div>
+        <button onclick="startExchange()">⇆</button>
     </div>
+    
 
     <div id = "row">
         <div id="animation">
@@ -46,6 +43,15 @@
             <h3>Matrica operatora zamjene</h3>
         </div>
     </div>
+
+    <h2>Što je Majorana?</h2>
+    <p>
+        Majorana fermionima nazivamo kvazičestice na rubovima Kitaevljevog lanca u topološkoj fazi. 
+        Ove čestice su neabelovi anyon-i, odnosno posjeduju svojstvo da njihova zamjena u prostoru ima 
+        netrivijalan učinak na valnu funkciju sustava. Ovo je interaktivna simulacija koja pokazuje efekt 
+        zamjene mjesta odabranih Majorana koristeći T-spojeve, te učinak iste u matričnom obliku kao operator 
+        na sustav dvaju kubita.
+    </p>  
 
     <p>
         Matrice zamjene su unitarne matrice dimenzija 4x4. U nastavku su navedene matrice za zamjenu najbližih
