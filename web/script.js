@@ -40,7 +40,7 @@ for (let i = 1; i < 4; i++) {
 // Initialize Majoranas
 const majoranas = [];
 const initPositions = [];
-const colors = ["red", "yellow", "green", "blue"];
+const colors = ["#008Dff", "#0000FF", "#000099", "#000033"];
 
 for (let i = 0; i < N; i++) {
     const x = (L / (N + 1)) * (i + 1);
