@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Majorana Exchange Animation</title>
+    <title>Braiding Majoranas</title>
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.min.js"></script>
     <link rel="stylesheet" href="style.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab:wght@1..900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gantari:ital,wght@0,100..900;1,100..900&family=Hepta+Slab:wght@1..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-</head>
+
+  </head>
+
 <body>
     <h1>Braiding Majorana <br>u Kitaevljevim lancima</h1>
-    <p style="margin-top: 1%; margin-bottom: 0%; margin-left: 0%;"><i style="margin: 0%;">Interaktivna simulacija za razumijevanje braiding-a kao osnove topološkog kvantnog računanja</i></p>
+
+    <p style="margin-top: 1%; margin-bottom: 0%; margin-left: 0%;">
+      <i style="margin: 0%;">Interaktivna simulacija za razumijevanje braiding-a kao osnove topološkog kvantnog računanja</i>
+    </p>
+
     <hr style="margin-top: 0%;">
     <br>
+
     <div id="inputs">
         <div class="input-group-container">
             <div class="input-group">
@@ -33,32 +43,37 @@
         <button onclick="startExchange()">⇆</button>
     </div>
     
-
-    <div id = "row">
+    <div id = "animation-and-matrix">
         <div id="animation">
-
         <script src="script.js"></script>
         </div>
-
         <div id="matrix">
             <h3>Matrica operatora zamjene</h3>
         </div>
     </div>
 
-    <h2>Malo teorije</h2>
+    <h2>Malo teorije...</h2>
     <p>
-        Majorana fermioni su (za naše svrhe) kvazičestice na rubovima Kitaevljevog lanca u topološkoj fazi. 
-        Ove čestice su neabelovi anyon-i, odnosno posjeduju svojstvo da njihova zamjena u prostoru ima 
-        netrivijalan učinak na valnu funkciju sustava. Iznad je interaktivna simulacija koja pokazuje efekt 
-        zamjene mjesta odabranih Majorana koristeći T-spojeve i braiding u desno, te učinak iste u matričnom obliku kao operator 
-        na sustav dvaju kubita.
+      Majorana fermioni su (za naše svrhe) kvazičestice na rubovima Kitaevljevog lanca u topološkoj fazi. 
+      Ove čestice su neabelovi anyon-i, odnosno posjeduju svojstvo da njihova zamjena u prostoru ima 
+      netrivijalan učinak na valnu funkciju sustava. Iznad je interaktivna simulacija koja pokazuje efekt 
+      zamjene mjesta odabranih Majorana koristeći T-spojeve i "counter-clockwise" braiding, te učinak iste u matričnom obliku kao operator 
+      na sustav dvaju kubita.
     </p>  
+
+    <img src="faze-kitaev.png"  style="display: block; margin-left: auto; margin-right: auto; width: 25%;">
+    <p style="text-align:center; font-size: small;"><i>Faze Kitaevljevog lanca</i></p>
+
+    <p>
+      <a href="Kitaev.pdf" target="_blank" style="color:  rgb(93, 2, 118);">Više o svojstvima Kitaevljevog lanca za primjene u topološkom kvantnom računanju</a>
+    </p>
     <hr style="margin-top: 0%;">
 
-    <p>Matrice zamjene su unitarne matrice dimenzija 4x4. 
-        Matrice zamjene najbližih susjeda u našem slučaju izgledaju kao:
-        <br><br>
+    <p>
+      Matrice zamjene su unitarne matrice dimenzija 4x4. 
+      Matrice zamjene najbližih susjeda u našem slučaju izgledaju kao:
     </p>
+    <br>
 
     <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
         <msub>
@@ -348,562 +363,687 @@
           </mtable>
           <mo data-mjx-texclass="CLOSE">]</mo>
         </mrow>
+    </math>
+
+    <br>
+    <p>
+      Ostale zamjene postižu se kompozicijom više ovakvih zamjena. 
+      Tako svaku zamjenu ne-susjednih Majorana možemo dobiti uzastopnim zamjenama susjeda, 
+      i kombinacijom takvih zamjena dobiti željeni operator.   
+    </p>
+    <br> 
+
+    <hr style="margin-top: 0%;">    
+
+    <h3 style="margin-top: 0%; text-align: center;">Izvod</h3>
+
+    <p id="izvod-paragraf">
+      U našoj simulaciji se nalaze 4 Majorane, koje interpretiramo kao krajeve 2 Kitaevljeva lanca, 
+      pa imamo sustav 2 kubita. Osnovna stanja sustava ćemo opisivati pomoću zauzetosti pojedine 
+      fermionske lokacije (<math><msub><mi>c</mi><mn>1</mn></msub></math> i <math><msub><mi>c</mi><mn>2</mn></msub></math>). 
+      Tako:
+
+      <br><br>
+      <ul style="margin-left: 5%; font-family: serif;">
+          |00⟩ = ni jedna nije zauzeta<br>
+          |01⟩ = druga je zauzeta<br>
+          |10⟩ = prva je zauzeta<br>
+          |11⟩ = obe su zauzete<br>
+      </ul>
+      <br><br>
+      
+      Znamo (iz definicije Majorana fermiona) da je  
+      <math>
+          <msub>
+              <mi>c</mi>
+              <mn>1</mn>
+          </msub>
+          <mo>=</mo>
+          <mfrac>
+              <mn>1</mn>
+              <mn>2</mn>
+          </mfrac>
+          <mrow data-mjx-texclass="INNER">
+              <mo data-mjx-texclass="OPEN">(</mo>
+              <msub>
+              <mi>γ</mi>
+              <mn>1</mn>
+              </msub>
+              <mo>+</mo>
+              <msub>
+              <mi>γ</mi>
+              <mn>2</mn>
+              </msub>
+              <mo data-mjx-texclass="CLOSE">)</mo>
+          </mrow>
+      </math>
+      i
+      <math>
+          <msubsup>
+              <mi>c</mi>
+              <mn>1</mn>
+              <mrow data-mjx-texclass="ORD">
+              <mo>†</mo>
+              </mrow>
+          </msubsup>
+          <mo>=</mo>
+          <mfrac>
+              <mn>1</mn>
+              <mn>2</mn>
+          </mfrac>
+          <mrow data-mjx-texclass="INNER">
+              <mo data-mjx-texclass="OPEN">(</mo>
+              <msub>
+              <mi>γ</mi>
+              <mn>1</mn>
+              </msub>
+              <mo>+</mo>
+              <msub>
+              <mi>γ</mi>
+              <mn>2</mn>
+              </msub>
+              <mo data-mjx-texclass="CLOSE">)</mo>
+          </mrow>
+      </math>, 
+      te isto za <math><msub><mi>c</mi><mn>2</mn></msub></math>, 
+      samo sa preostale dvije Majorane <math><msub><mi>γ</mi><mn>3</mn></msub></math> i <math><msub><mi>γ</mi><mn>3</mn></msub></math>. 
+      Ekvivalentno: 
+      <br><br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
+              <mtr>
+              <mtd>
+                  <msub>
+                  <mi>γ</mi>
+                  <mn>1</mn>
+                  </msub>
+                  <mo>=</mo>
+                  <msubsup>
+                  <mi>c</mi>
+                  <mn>1</mn>
+                  <mrow data-mjx-texclass="ORD">
+                      <mo>†</mo>
+                  </mrow>
+                  </msubsup>
+                  <mo>+</mo>
+                  <msub>
+                  <mi>c</mi>
+                  <mn>1</mn>
+                  </msub>
+              </mtd>
+              </mtr>
+              <mtr>
+              <mtd>
+                  <msub>
+                  <mi>γ</mi>
+                  <mn>2</mn>
+                  </msub>
+                  <mo>=</mo>
+                  <mi>i</mi>
+                  <mrow data-mjx-texclass="INNER">
+                  <mo data-mjx-texclass="OPEN">(</mo>
+                  <msubsup>
+                      <mi>c</mi>
+                      <mn>1</mn>
+                      <mrow data-mjx-texclass="ORD">
+                      <mo>†</mo>
+                      </mrow>
+                  </msubsup>
+                  <mo>−</mo>
+                  <msub>
+                      <mi>c</mi>
+                      <mn>1</mn>
+                  </msub>
+                  <mo data-mjx-texclass="CLOSE">)</mo>
+                  </mrow>
+              </mtd>
+              </mtr>
+              <mtr>
+              <mtd>
+                  <msub>
+                  <mi>γ</mi>
+                  <mn>3</mn>
+                  </msub>
+                  <mo>=</mo>
+                  <msubsup>
+                  <mi>c</mi>
+                  <mn>2</mn>
+                  <mrow data-mjx-texclass="ORD">
+                      <mo>†</mo>
+                  </mrow>
+                  </msubsup>
+                  <mo>+</mo>
+                  <msub>
+                  <mi>c</mi>
+                  <mn>2</mn>
+                  </msub>
+              </mtd>
+              </mtr>
+              <mtr>
+              <mtd>
+                  <msub>
+                  <mi>γ</mi>
+                  <mn>4</mn>
+                  </msub>
+                  <mo>=</mo>
+                  <mi>i</mi>
+                  <mrow data-mjx-texclass="INNER">
+                  <mo data-mjx-texclass="OPEN">(</mo>
+                  <msubsup>
+                      <mi>c</mi>
+                      <mn>2</mn>
+                      <mrow data-mjx-texclass="ORD">
+                      <mo>†</mo>
+                      </mrow>
+                  </msubsup>
+                  <mo>−</mo>
+                  <msub>
+                      <mi>c</mi>
+                      <mn>2</mn>
+                  </msub>
+                  <mo data-mjx-texclass="CLOSE">)</mo>
+                  </mrow>
+              </mtd>
+              </mtr>
+          </mtable>
+      </math>
+      <br>
+      
+      Prema formalizmu <a href="https://en.wikipedia.org/wiki/Second_quantization" target="_blank" style="color: rgb(93, 2, 118);">druge kvantizacije</a>
+      djelovanje operatora anihilacije na vakuumsko stanje |00⟩ daje 0. Dakle,
+      <br><br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+      <msub>
+          <mi>c</mi>
+          <mn>1</mn>
+      </msub>
+      <mrow data-mjx-texclass="ORD">
+          <mo stretchy="false">|</mo>
+      </mrow>
+      <mn>00</mn>
+      <mo fence="false" stretchy="false">⟩</mo>
+      <mo>=</mo>
+      <mn>0</mn>
+      <mo>,</mo>
+      <mstyle scriptlevel="0">
+          <mspace width="1em"></mspace>
+      </mstyle>
+      <msub>
+          <mi>c</mi>
+          <mn>2</mn>
+      </msub>
+      <mrow data-mjx-texclass="ORD">
+          <mo stretchy="false">|</mo>
+      </mrow>
+      <mn>00</mn>
+      <mo fence="false" stretchy="false">⟩</mo>
+      <mo>=</mo>
+      <mn>0</mn>
+      </math>
+      <br>
+      Očekivano, operatori kreacije na isto stanje djeluju kao: 
+      <br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+      <msubsup>
+          <mi>c</mi>
+          <mn>1</mn>
+          <mrow data-mjx-texclass="ORD">
+          <mo>†</mo>
+          </mrow>
+      </msubsup>
+      <mrow data-mjx-texclass="ORD">
+          <mo stretchy="false">|</mo>
+      </mrow>
+      <mn>00</mn>
+      <mo fence="false" stretchy="false">⟩</mo>
+      <mo>=</mo>
+      <mrow data-mjx-texclass="ORD">
+          <mo stretchy="false">|</mo>
+      </mrow>
+      <mn>10</mn>
+      <mo fence="false" stretchy="false">⟩</mo>
+      <mo>,</mo>
+      <mstyle scriptlevel="0">
+          <mspace width="1em"></mspace>
+      </mstyle>
+      <msubsup>
+          <mi>c</mi>
+          <mn>2</mn>
+          <mrow data-mjx-texclass="ORD">
+          <mo>†</mo>
+          </mrow>
+      </msubsup>
+      <mrow data-mjx-texclass="ORD">
+          <mo stretchy="false">|</mo>
+      </mrow>
+      <mn>00</mn>
+      <mo fence="false" stretchy="false">⟩</mo>
+      <mo>=</mo>
+      <mrow data-mjx-texclass="ORD">
+          <mo stretchy="false">|</mo>
+      </mrow>
+      <mn>01</mn>
+      <mo fence="false" stretchy="false">⟩</mo>
       </math>
 
-    <p>
-        <br>
-        ostale zamjene postižu se kompozicijom više ovakvih zamjena. 
-        Tako svaku zamjenu ne-susjednih Majorana možemo, kao u simuliranom primjeru, 
-        dobiti uzastopnim (primjerice desnim) zamjenama susjeda, i kombinacijom uzastopnih zamjena 
-        dobiti željeni operator.
-        <br><br>    
-    </p>
-    <hr style="margin-top: 0%;">    
-    <h4 style="margin-top: 0%;">Izvod</h4>
-    <p>
-        U našoj simulaciji se nalaze 4 Majorane, koje interpretiramo kao krajeve 2 Kitaevljeva lanca, 
-        pa imamo sustav 2 kubita. Osnovna stanja sustava ćemo opisivati pomoću zauzetosti pojedine 
-        fermionske lokacije (<math><msub><mi>c</mi><mn>1</mn></msub></math> i <math><msub><mi>c</mi><mn>2</mn></msub></math>). Tako:
-        <br><br>
-        <ul style="margin-left: 5%; font-family: serif;">
-            |00⟩ = ni jedna nije zauzeta<br>
-            |01⟩ = druga je zauzeta<br>
-            |10⟩ = prva je zauzeta<br>
-            |11⟩ = obe su zauzete<br>
-        </ul>
-        <br><br> 
-        
-        Znamo (iz definicije Majorana fermiona) da je  
-        <math>
-            <msub>
-                <mi>c</mi>
-                <mn>1</mn>
-            </msub>
-            <mo>=</mo>
-            <mfrac>
-                <mn>1</mn>
-                <mn>2</mn>
-            </mfrac>
-            <mrow data-mjx-texclass="INNER">
-                <mo data-mjx-texclass="OPEN">(</mo>
+      <br>
+      Nadalje, 
+      <br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mtable columnalign="left left left left" columnspacing="1em" rowspacing="4pt">
+            <mtr>
+              <mtd>
                 <msub>
-                <mi>γ</mi>
-                <mn>1</mn>
+                  <mi>c</mi>
+                  <mn>1</mn>
                 </msub>
-                <mo>+</mo>
-                <msub>
-                <mi>γ</mi>
-                <mn>2</mn>
-                </msub>
-                <mo data-mjx-texclass="CLOSE">)</mo>
-            </mrow>
-        </math>
-        i
-        <math>
-            <msubsup>
-                <mi>c</mi>
-                <mn>1</mn>
                 <mrow data-mjx-texclass="ORD">
-                <mo>†</mo>
+                  <mo stretchy="false">|</mo>
                 </mrow>
-            </msubsup>
-            <mo>=</mo>
-            <mfrac>
-                <mn>1</mn>
-                <mn>2</mn>
-            </mfrac>
-            <mrow data-mjx-texclass="INNER">
-                <mo data-mjx-texclass="OPEN">(</mo>
+                <mn>01</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mn>0</mn>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
                 <msub>
-                <mi>γ</mi>
-                <mn>1</mn>
+                  <mi>c</mi>
+                  <mn>2</mn>
                 </msub>
-                <mo>+</mo>
-                <msub>
-                <mi>γ</mi>
-                <mn>2</mn>
-                </msub>
-                <mo data-mjx-texclass="CLOSE">)</mo>
-            </mrow>
-            </math>
-        , 
-        te isto za <math><msub><mi>c</mi><mn>2</mn></msub></math>, 
-        samo sa preostale dvije Majorane <math><msub><mi>γ</mi><mn>3</mn></msub></math> i <math><msub><mi>γ</mi><mn>3</mn></msub></math>. Ekvivalentno: 
-        <br><br>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-            <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
-                <mtr>
-                <mtd>
-                    <msub>
-                    <mi>γ</mi>
-                    <mn>1</mn>
-                    </msub>
-                    <mo>=</mo>
-                    <msubsup>
-                    <mi>c</mi>
-                    <mn>1</mn>
-                    <mrow data-mjx-texclass="ORD">
-                        <mo>†</mo>
-                    </mrow>
-                    </msubsup>
-                    <mo>+</mo>
-                    <msub>
-                    <mi>c</mi>
-                    <mn>1</mn>
-                    </msub>
-                </mtd>
-                </mtr>
-                <mtr>
-                <mtd>
-                    <msub>
-                    <mi>γ</mi>
-                    <mn>2</mn>
-                    </msub>
-                    <mo>=</mo>
-                    <mi>i</mi>
-                    <mrow data-mjx-texclass="INNER">
-                    <mo data-mjx-texclass="OPEN">(</mo>
-                    <msubsup>
-                        <mi>c</mi>
-                        <mn>1</mn>
-                        <mrow data-mjx-texclass="ORD">
-                        <mo>†</mo>
-                        </mrow>
-                    </msubsup>
-                    <mo>−</mo>
-                    <msub>
-                        <mi>c</mi>
-                        <mn>1</mn>
-                    </msub>
-                    <mo data-mjx-texclass="CLOSE">)</mo>
-                    </mrow>
-                </mtd>
-                </mtr>
-                <mtr>
-                <mtd>
-                    <msub>
-                    <mi>γ</mi>
-                    <mn>3</mn>
-                    </msub>
-                    <mo>=</mo>
-                    <msubsup>
-                    <mi>c</mi>
-                    <mn>2</mn>
-                    <mrow data-mjx-texclass="ORD">
-                        <mo>†</mo>
-                    </mrow>
-                    </msubsup>
-                    <mo>+</mo>
-                    <msub>
-                    <mi>c</mi>
-                    <mn>2</mn>
-                    </msub>
-                </mtd>
-                </mtr>
-                <mtr>
-                <mtd>
-                    <msub>
-                    <mi>γ</mi>
-                    <mn>4</mn>
-                    </msub>
-                    <mo>=</mo>
-                    <mi>i</mi>
-                    <mrow data-mjx-texclass="INNER">
-                    <mo data-mjx-texclass="OPEN">(</mo>
-                    <msubsup>
-                        <mi>c</mi>
-                        <mn>2</mn>
-                        <mrow data-mjx-texclass="ORD">
-                        <mo>†</mo>
-                        </mrow>
-                    </msubsup>
-                    <mo>−</mo>
-                    <msub>
-                        <mi>c</mi>
-                        <mn>2</mn>
-                    </msub>
-                    <mo data-mjx-texclass="CLOSE">)</mo>
-                    </mrow>
-                </mtd>
-                </mtr>
-            </mtable>
-        </math>
-        <br>
-        
-        Prema formalizmu 
-        <a href="https://en.wikipedia.org/wiki/Second_quantization" target="_blank">druge kvantizacije</a>
-        djelovanje operatora anihilacije na vakuumsko stanje |00⟩ daje 0. Dakle,
-        <br><br>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <msub>
-            <mi>c</mi>
-            <mn>1</mn>
-        </msub>
-        <mrow data-mjx-texclass="ORD">
-            <mo stretchy="false">|</mo>
-        </mrow>
-        <mn>00</mn>
-        <mo fence="false" stretchy="false">⟩</mo>
-        <mo>=</mo>
-        <mn>0</mn>
-        <mo>,</mo>
-        <mstyle scriptlevel="0">
-            <mspace width="1em"></mspace>
-        </mstyle>
-        <msub>
-            <mi>c</mi>
-            <mn>2</mn>
-        </msub>
-        <mrow data-mjx-texclass="ORD">
-            <mo stretchy="false">|</mo>
-        </mrow>
-        <mn>00</mn>
-        <mo fence="false" stretchy="false">⟩</mo>
-        <mo>=</mo>
-        <mn>0</mn>
-        </math>
-
-        Očekivano, operatori kreacije na isto stanje djeluju kao: 
-        <br><br>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <msubsup>
-            <mi>c</mi>
-            <mn>1</mn>
-            <mrow data-mjx-texclass="ORD">
-            <mo>†</mo>
-            </mrow>
-        </msubsup>
-        <mrow data-mjx-texclass="ORD">
-            <mo stretchy="false">|</mo>
-        </mrow>
-        <mn>00</mn>
-        <mo fence="false" stretchy="false">⟩</mo>
-        <mo>=</mo>
-        <mrow data-mjx-texclass="ORD">
-            <mo stretchy="false">|</mo>
-        </mrow>
-        <mn>10</mn>
-        <mo fence="false" stretchy="false">⟩</mo>
-        <mo>,</mo>
-        <mstyle scriptlevel="0">
-            <mspace width="1em"></mspace>
-        </mstyle>
-        <msubsup>
-            <mi>c</mi>
-            <mn>2</mn>
-            <mrow data-mjx-texclass="ORD">
-            <mo>†</mo>
-            </mrow>
-        </msubsup>
-        <mrow data-mjx-texclass="ORD">
-            <mo stretchy="false">|</mo>
-        </mrow>
-        <mn>00</mn>
-        <mo fence="false" stretchy="false">⟩</mo>
-        <mo>=</mo>
-        <mrow data-mjx-texclass="ORD">
-            <mo stretchy="false">|</mo>
-        </mrow>
-        <mn>01</mn>
-        <mo fence="false" stretchy="false">⟩</mo>
-        </math>
-
-        Nadalje, <br>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-            <mtable columnalign="left left left left" columnspacing="1em" rowspacing="4pt">
-              <mtr>
-                <mtd>
-                  <msub>
-                    <mi>c</mi>
-                    <mn>1</mn>
-                  </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>01</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
+                <msubsup>
+                  <mi>c</mi>
+                  <mn>1</mn>
                   <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
+                    <mo>†</mo>
                   </mrow>
-                  <mn>01</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mn>0</mn>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msub>
-                    <mi>c</mi>
-                    <mn>2</mn>
-                  </msub>
+                </msubsup>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>01</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>11</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
+                <msubsup>
+                  <mi>c</mi>
+                  <mn>2</mn>
                   <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
+                    <mo>†</mo>
                   </mrow>
-                  <mn>01</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msubsup>
-                    <mi>c</mi>
-                    <mn>1</mn>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo>†</mo>
-                    </mrow>
-                  </msubsup>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>01</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>11</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msubsup>
-                    <mi>c</mi>
-                    <mn>2</mn>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo>†</mo>
-                    </mrow>
-                  </msubsup>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>01</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mn>0</mn>
-                </mtd>
-              </mtr>
-              </mtable>
-            </math>
-
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block", style="margin-top:10px">
-        <mtable columnalign="left left left left" columnspacing="1em" rowspacing="4pt">
-              <mtr>
-                <mtd>
-                  <msub>
-                    <mi>c</mi>
-                    <mn>1</mn>
-                  </msub>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>10</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msub>
-                    <mi>c</mi>
-                    <mn>2</mn>
-                  </msub>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>10</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mn>0</mn>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msubsup>
-                    <mi>c</mi>
-                    <mn>1</mn>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo>†</mo>
-                    </mrow>
-                  </msubsup>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>10</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mn>0</mn>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msubsup>
-                    <mi>c</mi>
-                    <mn>2</mn>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo>†</mo>
-                    </mrow>
-                  </msubsup>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>10</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>11</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                </mtd>
-              </mtr>
-            </mtable>
-            </math>
-
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block", style="margin-top:10px">
-        <mtable columnalign="left left left left" columnspacing="1em" rowspacing="4pt">
-              <mtr>
-                <mtd>
-                  <msub>
-                    <mi>c</mi>
-                    <mn>1</mn>
-                  </msub>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>11</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>01</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msub>
-                    <mi>c</mi>
-                    <mn>2</mn>
-                  </msub>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>11</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>10</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msubsup>
-                    <mi>c</mi>
-                    <mn>1</mn>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo>†</mo>
-                    </mrow>
-                  </msubsup>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>11</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mn>0</mn>
-                  <mo>,</mo>
-                </mtd>
-                <mtd>
-                  <msubsup>
-                    <mi>c</mi>
-                    <mn>2</mn>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo>†</mo>
-                    </mrow>
-                  </msubsup>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>11</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mn>0</mn>
-                </mtd>
-              </mtr>
+                </msubsup>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>01</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mn>0</mn>
+              </mtd>
+            </mtr>
             </mtable>
           </math>
-          
-          
-          
-        <br><br>
-        Matricu operatora zamjene dobit ćemo iz 
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-            <mi>U</mi>
-            <mo>=</mo>
-            <mi>exp</mi>
-            <mo data-mjx-texclass="NONE">⁡</mo>
-            <mrow data-mjx-texclass="INNER">
-              <mo data-mjx-texclass="OPEN">(</mo>
-              <mo>±</mo>
-              <mfrac>
-                <mi>π</mi>
-                <mn>4</mn>
-              </mfrac>
-              <msub>
-                <mi>γ</mi>
-                <mi>n</mi>
-              </msub>
-              <msub>
-                <mi>γ</mi>
-                <mi>m</mi>
-              </msub>
-              <mo data-mjx-texclass="CLOSE">)</mo>
-            </mrow>
-            <mo>=</mo>
-            <mfrac>
-              <mn>1</mn>
-              <msqrt>
-                <mn>2</mn>
-              </msqrt>
-            </mfrac>
-            <mrow data-mjx-texclass="INNER">
-              <mo data-mjx-texclass="OPEN">(</mo>
-              <mn>1</mn>
-              <mo>±</mo>
-              <msub>
-                <mi>γ</mi>
-                <mi>n</mi>
-              </msub>
-              <msub>
-                <mi>γ</mi>
-                <mi>m</mi>
-              </msub>
-              <mo data-mjx-texclass="CLOSE">)</mo>
-            </mrow>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block", style="margin-top:10px">
+      <mtable columnalign="left left left left" columnspacing="1em" rowspacing="4pt">
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>c</mi>
+                  <mn>1</mn>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
+                <msub>
+                  <mi>c</mi>
+                  <mn>2</mn>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mn>0</mn>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
+                <msubsup>
+                  <mi>c</mi>
+                  <mn>1</mn>
+                  <mrow data-mjx-texclass="ORD">
+                    <mo>†</mo>
+                  </mrow>
+                </msubsup>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mn>0</mn>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
+                <msubsup>
+                  <mi>c</mi>
+                  <mn>2</mn>
+                  <mrow data-mjx-texclass="ORD">
+                    <mo>†</mo>
+                  </mrow>
+                </msubsup>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>11</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+              </mtd>
+            </mtr>
+          </mtable>
+          </math>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block", style="margin-top:10px">
+      <mtable columnalign="left left left left" columnspacing="1em" rowspacing="4pt">
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>c</mi>
+                  <mn>1</mn>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>11</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>01</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
+                <msub>
+                  <mi>c</mi>
+                  <mn>2</mn>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>11</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
+                <msubsup>
+                  <mi>c</mi>
+                  <mn>1</mn>
+                  <mrow data-mjx-texclass="ORD">
+                    <mo>†</mo>
+                  </mrow>
+                </msubsup>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>11</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mn>0</mn>
+                <mo>,</mo>
+              </mtd>
+              <mtd>
+                <msubsup>
+                  <mi>c</mi>
+                  <mn>2</mn>
+                  <mrow data-mjx-texclass="ORD">
+                    <mo>†</mo>
+                  </mrow>
+                </msubsup>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>11</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mn>0</mn>
+              </mtd>
+            </mtr>
+          </mtable>
         </math>
-        <br>
-        gdje ± označuje smjer zamjene. Odabrat ćemo + kao rotaciju u desno.
-        U12 onda možemo izvesti promatranjem učinka na svako osnovno stanje:
+      <br><br>
 
-        <br><br>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-            <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
-              <mtr>
-                <mtd>
+      Matricu operatora zamjene dobit ćemo iz 
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mi>U</mi>
+          <mo>=</mo>
+          <mi>exp</mi>
+          <mo data-mjx-texclass="NONE">⁡</mo>
+          <mrow data-mjx-texclass="INNER">
+            <mo data-mjx-texclass="OPEN">(</mo>
+            <mo>±</mo>
+            <mfrac>
+              <mi>π</mi>
+              <mn>4</mn>
+            </mfrac>
+            <msub>
+              <mi>γ</mi>
+              <mi>n</mi>
+            </msub>
+            <msub>
+              <mi>γ</mi>
+              <mi>m</mi>
+            </msub>
+            <mo data-mjx-texclass="CLOSE">)</mo>
+          </mrow>
+          <mo>=</mo>
+          <mfrac>
+            <mn>1</mn>
+            <msqrt>
+              <mn>2</mn>
+            </msqrt>
+          </mfrac>
+          <mrow data-mjx-texclass="INNER">
+            <mo data-mjx-texclass="OPEN">(</mo>
+            <mn>1</mn>
+            <mo>±</mo>
+            <msub>
+              <mi>γ</mi>
+              <mi>n</mi>
+            </msub>
+            <msub>
+              <mi>γ</mi>
+              <mi>m</mi>
+            </msub>
+            <mo data-mjx-texclass="CLOSE">)</mo>
+          </mrow>
+      </math>
+      <br>
+      gdje ± označuje smjer zamjene. Odabrat ćemo + kao rotaciju u smjeru suprotnom od kazaljke na satu (<i>counter-clockwise</i>).
+      <math>
+        <msub>
+          <mi>U</mi>
+          <mrow data-mjx-texclass="ORD">
+            <mn>12</mn>
+          </mrow> </msub>
+      </math> onda možemo izvesti promatranjem učinka na svako osnovno stanje:
+
+      <br><br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>γ</mi>
+                  <mn>1</mn>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <msubsup>
+                  <mi>c</mi>
+                  <mn>1</mn>
+                  <mrow data-mjx-texclass="ORD">
+                    <mo>†</mo>
+                  </mrow>
+                </msubsup>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>+</mo>
+                <msub>
+                  <mi>c</mi>
+                  <mn>1</mn>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>+</mo>
+                <mn>0</mn>
+                <mo>=</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+              </mtd>
+            </mtr>
+            </mtable>
+      </math>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" style="margin-top:15px">
+          <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>γ</mi>
+                  <mn>1</mn>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mo>⋯</mo>
+                <mo>=</mo>
+                <mi>i</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+              </mtd>
+            </mtr>
+            </mtable>
+      </math>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" style="margin-top:10px">
+          <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>γ</mi>
+                  <mn>1</mn>
+                </msub>
+                <msub>
+                  <mi>γ</mi>
+                  <mn>2</mn>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <msub>
+                  <mi>γ</mi>
+                  <mn>1</mn>
+                </msub>
+                <mrow data-mjx-texclass="INNER">
+                  <mo data-mjx-texclass="OPEN">(</mo>
                   <msub>
                     <mi>γ</mi>
-                    <mn>1</mn>
+                    <mn>2</mn>
                   </msub>
                   <mrow data-mjx-texclass="ORD">
                     <mo stretchy="false">|</mo>
                   </mrow>
                   <mn>00</mn>
                   <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
+                  <mo data-mjx-texclass="CLOSE">)</mo>
+                </mrow>
+                <mo>=</mo>
+                <msub>
+                  <mi>γ</mi>
+                  <mn>1</mn>
+                </msub>
+                <mo stretchy="false">(</mo>
+                <mi>i</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>10</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo stretchy="false">)</mo>
+                <mo>=</mo>
+                <mi>i</mi>
+                <mrow data-mjx-texclass="INNER">
+                  <mo data-mjx-texclass="OPEN">(</mo>
                   <msubsup>
                     <mi>c</mi>
                     <mn>1</mn>
@@ -914,7 +1054,7 @@
                   <mrow data-mjx-texclass="ORD">
                     <mo stretchy="false">|</mo>
                   </mrow>
-                  <mn>00</mn>
+                  <mn>10</mn>
                   <mo fence="false" stretchy="false">⟩</mo>
                   <mo>+</mo>
                   <msub>
@@ -924,261 +1064,156 @@
                   <mrow data-mjx-texclass="ORD">
                     <mo stretchy="false">|</mo>
                   </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
                   <mn>10</mn>
                   <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>+</mo>
-                  <mn>0</mn>
-                  <mo>=</mo>
+                  <mo data-mjx-texclass="CLOSE">)</mo>
+                </mrow>
+                <mo>=</mo>
+                <mi>i</mi>
+                <mo stretchy="false">(</mo>
+                <mn>0</mn>
+                <mo>+</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo stretchy="false">)</mo>
+                <mo>=</mo>
+                <mi>i</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+              </mtd>
+            </mtr>
+          </mtable>
+      </math>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" style="margin-top:10px">
+          <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>U</mi>
                   <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
+                    <mn>12</mn>
                   </mrow>
-                  <mn>10</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                </mtd>
-              </mtr>
-              </mtable>
-        </math>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" style="margin-top:15px">
-            <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
-              <mtr>
-                <mtd>
-                  <msub>
-                    <mi>γ</mi>
-                    <mn>1</mn>
-                  </msub>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mo>⋯</mo>
-                  <mo>=</mo>
-                  <mi>i</mi>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>10</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                </mtd>
-              </mtr>
-              </mtable>
-        </math>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" style="margin-top:10px">
-            <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
-              <mtr>
-                <mtd>
-                  <msub>
-                    <mi>γ</mi>
-                    <mn>1</mn>
-                  </msub>
-                  <msub>
-                    <mi>γ</mi>
+                </msub>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mfrac>
+                  <mn>1</mn>
+                  <msqrt>
                     <mn>2</mn>
-                  </msub>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <msub>
-                    <mi>γ</mi>
-                    <mn>1</mn>
-                  </msub>
-                  <mrow data-mjx-texclass="INNER">
-                    <mo data-mjx-texclass="OPEN">(</mo>
-                    <msub>
-                      <mi>γ</mi>
-                      <mn>2</mn>
-                    </msub>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo stretchy="false">|</mo>
-                    </mrow>
-                    <mn>00</mn>
-                    <mo fence="false" stretchy="false">⟩</mo>
-                    <mo data-mjx-texclass="CLOSE">)</mo>
-                  </mrow>
-                  <mo>=</mo>
-                  <msub>
-                    <mi>γ</mi>
-                    <mn>1</mn>
-                  </msub>
-                  <mo stretchy="false">(</mo>
-                  <mi>i</mi>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>10</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo stretchy="false">)</mo>
-                  <mo>=</mo>
-                  <mi>i</mi>
-                  <mrow data-mjx-texclass="INNER">
-                    <mo data-mjx-texclass="OPEN">(</mo>
-                    <msubsup>
-                      <mi>c</mi>
-                      <mn>1</mn>
-                      <mrow data-mjx-texclass="ORD">
-                        <mo>†</mo>
-                      </mrow>
-                    </msubsup>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo stretchy="false">|</mo>
-                    </mrow>
-                    <mn>10</mn>
-                    <mo fence="false" stretchy="false">⟩</mo>
-                    <mo>+</mo>
-                    <msub>
-                      <mi>c</mi>
-                      <mn>1</mn>
-                    </msub>
-                    <mrow data-mjx-texclass="ORD">
-                      <mo stretchy="false">|</mo>
-                    </mrow>
-                    <mn>10</mn>
-                    <mo fence="false" stretchy="false">⟩</mo>
-                    <mo data-mjx-texclass="CLOSE">)</mo>
-                  </mrow>
-                  <mo>=</mo>
-                  <mi>i</mi>
-                  <mo stretchy="false">(</mo>
-                  <mn>0</mn>
-                  <mo>+</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo stretchy="false">)</mo>
-                  <mo>=</mo>
-                  <mi>i</mi>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                </mtd>
-              </mtr>
-            </mtable>
-        </math>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" style="margin-top:10px">
-            <mtable displaystyle="true" columnspacing="1em" rowspacing="3pt">
-              <mtr>
-                <mtd>
-                  <msub>
-                    <mi>U</mi>
-                    <mrow data-mjx-texclass="ORD">
-                      <mn>12</mn>
-                    </mrow>
-                  </msub>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mfrac>
-                    <mn>1</mn>
-                    <msqrt>
-                      <mn>2</mn>
-                    </msqrt>
-                  </mfrac>
-                  <mrow data-mjx-texclass="INNER">
-                    <mo data-mjx-texclass="OPEN">(</mo>
-                    <mn>1</mn>
-                    <mo>+</mo>
-                    <msub>
-                      <mi>γ</mi>
-                      <mn>1</mn>
-                    </msub>
-                    <msub>
-                      <mi>γ</mi>
-                      <mn>2</mn>
-                    </msub>
-                    <mo data-mjx-texclass="CLOSE">)</mo>
-                  </mrow>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
-                  <mo>=</mo>
-                  <mfrac>
-                    <mn>1</mn>
-                    <msqrt>
-                      <mn>2</mn>
-                    </msqrt>
-                  </mfrac>
-                  <mo stretchy="false">(</mo>
+                  </msqrt>
+                </mfrac>
+                <mrow data-mjx-texclass="INNER">
+                  <mo data-mjx-texclass="OPEN">(</mo>
                   <mn>1</mn>
                   <mo>+</mo>
-                  <mi>i</mi>
-                  <mo stretchy="false">)</mo>
-                  <mrow data-mjx-texclass="ORD">
-                    <mo stretchy="false">|</mo>
-                  </mrow>
-                  <mn>00</mn>
-                  <mo fence="false" stretchy="false">⟩</mo>
+                  <msub>
+                    <mi>γ</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <msub>
+                    <mi>γ</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mo data-mjx-texclass="CLOSE">)</mo>
+                </mrow>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+                <mo>=</mo>
+                <mfrac>
+                  <mn>1</mn>
+                  <msqrt>
+                    <mn>2</mn>
+                  </msqrt>
+                </mfrac>
+                <mo stretchy="false">(</mo>
+                <mn>1</mn>
+                <mo>+</mo>
+                <mi>i</mi>
+                <mo stretchy="false">)</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mo stretchy="false">|</mo>
+                </mrow>
+                <mn>00</mn>
+                <mo fence="false" stretchy="false">⟩</mo>
+              </mtd>
+            </mtr>
+          </mtable>
+        </math>
+      <br>
+
+      Što odgovara pomaku u fazi za -π/4, pa je prvi stupac:
+      <br><br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"> 
+          <mrow data-mjx-texclass="INNER">
+            <mo data-mjx-texclass="OPEN">[</mo>
+            <mtable columnalign="center" columnspacing="1em" rowspacing="4pt">
+              <mtr>
+                <mtd>
+                  <msup>
+                    <mi>e</mi>
+                    <mrow data-mjx-texclass="ORD">
+                      <mo>−</mo>
+                      <mfrac>
+                        <mi>π</mi>
+                        <mn>4</mn>
+                      </mfrac>
+                    </mrow>
+                  </msup>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mn>0</mn>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mn>0</mn>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mn>0</mn>
                 </mtd>
               </mtr>
             </mtable>
-          </math>
-        <br><br>
+            <mo data-mjx-texclass="CLOSE">]</mo>
+          </mrow>
+          <mo>.</mo>
+      </math>
+      <br><br>     
 
-        Što odgovara pomaku u fazi za -π/4, pa je prvi stupac:
-
-        <br><br>
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"> 
-            <mrow data-mjx-texclass="INNER">
-              <mo data-mjx-texclass="OPEN">[</mo>
-              <mtable columnalign="center" columnspacing="1em" rowspacing="4pt">
-                <mtr>
-                  <mtd>
-                    <msup>
-                      <mi>e</mi>
-                      <mrow data-mjx-texclass="ORD">
-                        <mo>−</mo>
-                        <mfrac>
-                          <mi>π</mi>
-                          <mn>4</mn>
-                        </mfrac>
-                      </mrow>
-                    </msup>
-                  </mtd>
-                </mtr>
-                <mtr>
-                  <mtd>
-                    <mn>0</mn>
-                  </mtd>
-                </mtr>
-                <mtr>
-                  <mtd>
-                    <mn>0</mn>
-                  </mtd>
-                </mtr>
-                <mtr>
-                  <mtd>
-                    <mn>0</mn>
-                  </mtd>
-                </mtr>
-              </mtable>
-              <mo data-mjx-texclass="CLOSE">]</mo>
-            </mrow>
-            <mo>.</mo>
-        </math>
-        <br><br>     
-
-        Istim postupkom izvodimo ostale stupce primjenom na ostala osnovna stanja.
+      Istim postupkom izvodimo ostale stupce primjenom na ostala osnovna stanja.
     </p>
-    <br>
-    <br>
+    <hr style="margin: 0%;">
+    <h4 style="margin-top: 20px;">IZVORI</h4>
+    <p>
+      [1] C. Nayak, <i>et al.</i>, <i>Non-Abelian Anyons and Topological Quantum Computation</i><br>
+      [2] J. Alicea, <i>New directions in the pursuit of Majorana fermions in solid state systems</i><br>
+      [3] L. Kauffmana, S. Lomonaco, <i>Braiding With Majorana Fermions</i><br>
+      [4] M. Freedman, A. Kitaev, <i>et al.</i>, <i>Topological Quantum Computation</i><br>
+      [5] <a href="https://topocondmat.org/w2_majorana/braiding.html" target="_blank" style="color: rgb(93, 2, 118);">https://topocondmat.org/w2_majorana/braiding.html</a>
+    </p>
+    <hr style="margin: 0%;">  
+    
+    <footer style="background-color: #f4f4f9; margin-top: 0%; padding: 1px;">
+      <p style="font-size: small; text-align: right; margin-right: 10px;">
+        Donata Butković, FER 2024.
+      </p>
+    </footer>
 
 </body>
 </html>

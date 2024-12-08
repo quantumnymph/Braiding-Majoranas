@@ -108,8 +108,7 @@ input[type="number"] {
     border-radius: 4px;
 }
 
-/* Row and content alignment */
-#row {
+#animation-and-matrix {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;

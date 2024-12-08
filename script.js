@@ -5,8 +5,8 @@ const L = 10; // Length of the screen
 // Create SVG canvas
 const svg = d3.select("#animation")
     .append("svg")
-    .attr("width", L * 50)  // Resize to half the original width
-    .attr("height", L * 25)  // Resize to half the original height
+    .attr("width", L * 50)
+    .attr("height", L * 25);
 
 const centerX = L * 25;
 const centerY = L * 12.5;
@@ -14,10 +14,10 @@ const centerY = L * 12.5;
 // Helper function to create lines
 function createLine(x1, y1, x2, y2, color, width) {
     svg.append("line")
-        .attr("x1", x1 * 50)  // Resize to half the original width
-        .attr("y1", centerY - y1 * 50) // Flip the Y values
-        .attr("x2", x2 * 50)  // Resize to half the original width
-        .attr("y2", centerY - y2 * 50) // Flip the Y values
+        .attr("x1", x1 * 50)
+        .attr("y1", centerY - y1 * 50)
+        .attr("x2", x2 * 50)
+        .attr("y2", centerY - y2 * 50)
         .attr("stroke", color)
         .attr("stroke-width", width);
 }
@@ -40,18 +40,20 @@ for (let i = 1; i < 4; i++) {
 
 // Initialize Majoranas
 const majoranas = [];
-const initPositions = [];
-const colors = ["#008Dff", "#0000FF", "#000099", "#000033"];
+let currentPositions = [];
+let indexMapping = Array.from({ length: N }, (_, i) => i); // Tracks logical indices to physical positions
+const colors = ["#0000FF", "#000099", "#800080", "#4B0082"];
 
+// Initial positions
 for (let i = 0; i < N; i++) {
     const x = (L / (N + 1)) * (i + 1);
     const y = 0;
-    initPositions.push([x, y]);
+    currentPositions.push([x, y]);
 
     const circle = svg.append("circle")
-        .attr("cx", x * 50)  // Resize to half the original width
-        .attr("cy", centerY - y * 50)  // Flip the Y value
-        .attr("r", 15)  // Resize the radius to half the original size
+        .attr("cx", x * 50)
+        .attr("cy", centerY - y * 50)
+        .attr("r", 15)
         .attr("fill", colors[i])
         .attr("stroke", "black");
 
@@ -62,8 +64,10 @@ for (let i = 0; i < N; i++) {
 function exchangeNeighbors(i, j) {
     const trajectoryI = [];
     const trajectoryJ = [];
-    const initI = initPositions[i];
-    const initJ = initPositions[j];
+    const physicalI = indexMapping[i];
+    const physicalJ = indexMapping[j];
+    const initI = currentPositions[physicalI];
+    const initJ = currentPositions[physicalJ];
     const noSteps = Math.floor((L / (N + 1)) * 20);
 
     // Move i rightwards
@@ -103,157 +107,31 @@ function exchangeNeighbors(i, j) {
         trajectoryJ.push(trajectoryJ[trajectoryJ.length - 1]);
     }
 
-    return [trajectoryI, trajectoryJ];
+    return [trajectoryI, trajectoryJ, physicalI, physicalJ];
 }
 
-// Function to calculate trajectories for exchanging any two Majoranas
-function exchange(i, j) {
-    if (i > j) [i, j] = [j, i];
-
-    const trajectories = initPositions.map(pos => [pos.slice()]);
-
-    const sequence = [];
-    if (j === i) return trajectories;
-    if (j === i + 1) {
-        sequence.push([i, j]);
-    } else if (j === i + 2) {
-        sequence.push([i, i + 1], [i, j], [i + 1, j]);
-    } else if (j === i + 3) {
-        sequence.push([i, i + 1], [i + 2, j], [i, j], [i, i + 2], [i + 1, j]);
-    } else {
-        throw new Error("Invalid exchange");
-    }
-
-    for (const [k, l] of sequence) {
-        const [trajK, trajL] = exchangeNeighbors(k, l);
-
-        for (let t = 0; t < trajK.length; t++) {
-            for (let m = 0; m < N; m++) {
-                if (m === k) {
-                    trajectories[m].push(trajK[t]);
-                } else if (m === l) {
-                    trajectories[m].push(trajL[t]);
-                } else {
-                    trajectories[m].push(trajectories[m][trajectories[m].length - 1]);
-                }
-            }
-        }
-
-        [initPositions[k], initPositions[l]] = [initPositions[l], initPositions[k]];
-    }
-
-    return trajectories;
-}
-
-// Include Math.js
-const identityMatrix = [
-    [1, 0, 0, 0],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1]
-];
-
-// Define the matrices (translated from Python)
-const U12 = [
-    [math.exp(-math.i * math.pi / 4), 0, 0, 0],
-    [0, math.exp(math.i * math.pi / 4), 0, 0],
-    [0, 0, math.exp(-math.i * math.pi / 4), 0],
-    [0, 0, 0, math.exp(math.i * math.pi / 4)]
-];
-
-const U23 = [
-    [1, -math.i, 0, 0],
-    [-math.i, 1, 0, 0],
-    [0, 0, 1, -math.i],
-    [0, 0, -math.i, 1]
-];
-
-const U34 = [
-    [math.exp(-math.i * math.pi / 4), 0, 0, 0],
-    [0, math.exp(math.i * math.pi / 4), 0, 0],
-    [0, 0, math.exp(math.i * math.pi / 4), 0],
-    [0, 0, 0, math.exp(-math.i * math.pi / 4)]
-];
-
-function dagger(U) {
-    return math.transpose(U).map(row => row.map(element => math.conj(element)));
-}
-
-
-// Derived matrices
-const U13 = math.multiply(dagger(U12), dagger(U23), U12);
-const U24 = math.multiply(dagger(U23), dagger(U34), U23);
-const U14 = math.multiply(dagger(U12), dagger(U23), dagger(U34), U23, U12);
-
-// Mapping of operations to matrices
-const matrixMap = {
-    "12": U12,
-    "23": U23,
-    "34": U34,
-    "13": U13,
-    "24": U24,
-    "14": U14
-};
-
-// Function to update the displayed matrix
-function updateMatrixDisplay(matrix) {
-    const matrixDiv = document.getElementById("matrix");
-    const matrixHTML = matrix
-        .map(row => `<div>[ ${row.map(cell => math.format(cell, { precision: 3 })).join(", ")} ]</div>`)
-        .join("");
-    matrixDiv.innerHTML = `<h3>Matrica operatora zamjene</h3>${matrixHTML}`;
-}
-
-// Display identity matrix by default
-document.addEventListener("DOMContentLoaded", () => {
-    updateMatrixDisplay(identityMatrix);
-});
-
-
-// Start exchange when button is clicked
+// Start the animation
 function startExchange() {
-    const i = parseInt(document.getElementById("i").value, 10);
-    const j = parseInt(document.getElementById("j").value, 10);
+    const i = parseInt(document.getElementById("i").value);
+    const j = parseInt(document.getElementById("j").value);
 
-
-    const key = `${Math.min(i + 1, j + 1)}${Math.max(i + 1, j + 1)}`;
-    const selectedMatrix = matrixMap[key];
-
-    if (selectedMatrix) {
-        updateMatrixDisplay(selectedMatrix);
-    } else {
-        alert("Invalid exchange operation");
-    }
-    
-    // Reset Majoranas to their original positions
-    const originalPositions = [
-        [(L / (N + 1)) * 1, 0],
-        [(L / (N + 1)) * 2, 0],
-        [(L / (N + 1)) * 3, 0],
-        [(L / (N + 1)) * 4, 0]
-    ];
-
-    for (let idx = 0; idx < N; idx++) {
-        initPositions[idx] = [...originalPositions[idx]]; // Reset initPositions
-        majoranas[idx]
-            .attr("cx", originalPositions[idx][0] * 50)
-            .attr("cy", centerY - originalPositions[idx][1] * 50);
+    if (isNaN(i) || isNaN(j) || i < 0 || j < 0 || i >= N || j >= N || Math.abs(i - j) !== 1) {
+        alert("Unesite indekse susjednih majorana!");
+        return;
     }
 
-    // Calculate new trajectories for the current exchange
-    const trajectories = exchange(i, j);
+    const [trajectoryI, trajectoryJ, physicalI, physicalJ] = exchangeNeighbors(i, j);
 
-    // Animate the exchange
-    const totalFrames = trajectories[0].length;
+    const totalFrames = trajectoryI.length;
 
     function update(frame) {
-        for (let idx = 0; idx < N; idx++) {
-            const traj = trajectories[idx];
-            if (frame < traj.length) {
-                majoranas[idx]
-                    .attr("cx", traj[frame][0] * 50)
-                    .attr("cy", centerY - traj[frame][1] * 50);
-            }
+        if (frame < totalFrames) {
+            majoranas[physicalI]
+                .attr("cx", trajectoryI[frame][0] * 50)
+                .attr("cy", centerY - trajectoryI[frame][1] * 50);
+            majoranas[physicalJ]
+                .attr("cx", trajectoryJ[frame][0] * 50)
+                .attr("cy", centerY - trajectoryJ[frame][1] * 50);
         }
     }
 
@@ -264,7 +142,10 @@ function startExchange() {
             frame++;
         } else {
             clearInterval(interval);
-        }
-    }, 40); // Update every 40ms
 
+            // Update current positions and index mapping
+            [currentPositions[physicalI], currentPositions[physicalJ]] = [currentPositions[physicalJ], currentPositions[physicalI]];
+            [indexMapping[i], indexMapping[j]] = [indexMapping[j], indexMapping[i]];
+        }
+    }, 50);
 }
