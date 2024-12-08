@@ -7,7 +7,6 @@ const svg = d3.select("#animation")
     .append("svg")
     .attr("width", L * 50)  // Resize to half the original width
     .attr("height", L * 25)  // Resize to half the original height
-    .style("background-color", "white");
 
 const centerX = L * 25;
 const centerY = L * 12.5;
@@ -27,14 +26,16 @@ function createLine(x1, y1, x2, y2, color, width) {
 createLine(1, 0.5, 9, 0.5, "gray", 2);
 
 for (let i = 1; i <= 4; i++) {
-    createLine(i * 2 - 0.35, -0.5, i * 2 + 0.35, -0.5, "gray", 2);
+    createLine(i * 2 - 0.55, -0.5, i * 2 + 0.55, -0.5, "gray", 2);
 }
+createLine(1, -0.5, 1.65, -0.5, "gray", 2);
+createLine(8.35, -0.5, 9, -0.5, "gray", 2);
 
 for (let i = 2; i <= 4; i++) {
-    createLine(i * 2 - 0.35, -0.5, i * 2 - 0.35, -1.5, "gray", 2);
+    createLine(i * 2 - 0.55, -0.5, i * 2 - 0.55, -1.5, "gray", 2);
 }
 for (let i = 1; i < 4; i++) {
-    createLine(i * 2 + 0.35, -0.5, i * 2 + 0.35, -1.5, "gray", 2);
+    createLine(i * 2 + 0.55, -0.5, i * 2 + 0.55, -1.5, "gray", 2);
 }
 
 // Initialize Majoranas
@@ -144,11 +145,86 @@ function exchange(i, j) {
     return trajectories;
 }
 
+// Include Math.js
+const identityMatrix = [
+    [1, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]
+];
+
+// Define the matrices (translated from Python)
+const U12 = [
+    [math.exp(-math.i * math.pi / 4), 0, 0, 0],
+    [0, math.exp(math.i * math.pi / 4), 0, 0],
+    [0, 0, math.exp(-math.i * math.pi / 4), 0],
+    [0, 0, 0, math.exp(math.i * math.pi / 4)]
+];
+
+const U23 = [
+    [1, -math.i, 0, 0],
+    [-math.i, 1, 0, 0],
+    [0, 0, 1, -math.i],
+    [0, 0, -math.i, 1]
+];
+
+const U34 = [
+    [math.exp(-math.i * math.pi / 4), 0, 0, 0],
+    [0, math.exp(math.i * math.pi / 4), 0, 0],
+    [0, 0, math.exp(math.i * math.pi / 4), 0],
+    [0, 0, 0, math.exp(-math.i * math.pi / 4)]
+];
+
+function dagger(U) {
+    return math.transpose(U).map(row => row.map(element => math.conj(element)));
+}
+
+
+// Derived matrices
+const U13 = math.multiply(dagger(U12), dagger(U23), U12);
+const U24 = math.multiply(dagger(U23), dagger(U34), U23);
+const U14 = math.multiply(dagger(U12), dagger(U23), dagger(U34), U23, U12);
+
+// Mapping of operations to matrices
+const matrixMap = {
+    "12": U12,
+    "23": U23,
+    "34": U34,
+    "13": U13,
+    "24": U24,
+    "14": U14
+};
+
+// Function to update the displayed matrix
+function updateMatrixDisplay(matrix) {
+    const matrixDiv = document.getElementById("matrix");
+    const matrixHTML = matrix
+        .map(row => `<div>[ ${row.map(cell => math.format(cell, { precision: 3 })).join(", ")} ]</div>`)
+        .join("");
+    matrixDiv.innerHTML = `<h3>Matrica operatora zamjene</h3>${matrixHTML}`;
+}
+
+// Display identity matrix by default
+document.addEventListener("DOMContentLoaded", () => {
+    updateMatrixDisplay(identityMatrix);
+});
+
+
 // Start exchange when button is clicked
 function startExchange() {
     const i = parseInt(document.getElementById("i").value, 10);
     const j = parseInt(document.getElementById("j").value, 10);
 
+
+    const key = `${Math.min(i + 1, j + 1)}${Math.max(i + 1, j + 1)}`;
+    const selectedMatrix = matrixMap[key];
+
+    if (selectedMatrix) {
+        updateMatrixDisplay(selectedMatrix);
+    } else {
+        alert("Invalid exchange operation");
+    }
+    
     // Reset Majoranas to their original positions
     const originalPositions = [
         [(L / (N + 1)) * 1, 0],
@@ -190,4 +266,5 @@ function startExchange() {
             clearInterval(interval);
         }
     }, 40); // Update every 40ms
+
 }
