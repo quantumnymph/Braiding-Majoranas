@@ -6,7 +6,6 @@ from matplotlib.animation import FuncAnimation
 N = 4  # Number of Majoranas
 L = 10  # Length of the screen
 
-
 # Set up the figure and axis
 fig, ax = plt.subplots()
 ax.set_xlim(0, L)  # Width of the screen
@@ -30,14 +29,6 @@ for i in range (1, 5):
     if i != 4:
         line2 = Line2D([i*L/5 + L/5/3.5, i*L/5 + L/5/3.5], [-0.5, -1.5], color='grey', lw=1)
         ax.add_line(line2)
-
-    
-
-
-
-
-
-
 
 # Initialize Majoranas and their positions
 majoranas = []
