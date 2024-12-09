@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Braiding Majoranas</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab:wght@1..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gantari:ital,wght@0,100..900;1,100..900&family=Hepta+Slab:wght@1..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Style for the language buttons */
+        .lang-button {
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language toggle buttons -->
+    <div style="text-align: right;">
+        <button class="lang-button" onclick="setLanguage('hr')">HR</button>
+        <button class="lang-button" onclick="setLanguage('en')">EN</button>
+    </div>
+
+    <h1 id="title">Braiding Majoranas <br>in Kitaev Chains</h1>
+
+    <p id="intro" style="margin-top: 1%; margin-bottom: 0%; margin-left: 0%;">
+      <i style="margin: 0%;">Interactive simulation for understanding braiding as the basis for topological quantum computing</i>
+    </p>
+
+    <hr style="margin-top: 0%; margin-bottom: 3.5%;">
+
+    <div id="inputs">
+        <div class="input-group-container">
+            <div class="input-group">
+                <label for="i">Index of Majorana 1 (0-3):</label>
+                <input type="number" id="i" min="0" max="3" value="0">
+            </div>
+            <div class="input-group">
+                <label for="j">Index of Majorana 2 (0-3):</label>
+                <input type="number" id="j" min="0" max="3" value="1">
+            </div>
+        </div>
+        <button onclick="startExchange()">⇆</button>
+    </div>
+    
+    <div id="animation-and-matrix">
+        <div id="animation">
+        <script src="script.js"></script>
+        </div>
+        <div id="matrix">
+            <h3>Swap Operator Matrix</h3>
+        </div>
+    </div>
+
+    <h2 id="theory-title">Some Theory...</h2>
+    <p id="theory-text">
+      Majorana fermions (for our purposes) are quasiparticles at the edges of a Kitaev chain in the topological phase. 
+      These particles are non-abelian anyons, meaning they have the property that their exchange in space has 
+      a non-trivial effect on the wave function of the system. Above is an interactive simulation that shows the effect 
+      of exchanging the selected Majoranas using T-junctions and counter-clockwise braiding, and its effect in matrix form as an operator 
+      on a two-qubit system.
+    </p>  
+
+    <img src="faze-kitaev.png"  style="display: block; margin-left: auto; margin-right: auto; width: 25%;">
+    <p style="text-align:center; font-size: small;"><i>Phases of the Kitaev Chain</i></p>
+
+    <p>
+      <a href="Kitaev.pdf" target="_blank" style="color:  rgb(93, 2, 118);">More on the properties of the Kitaev chain for applications in topological quantum computing</a>
+    </p>
+    <hr style="margin-top: 0%;">
+
+    <p>
+      The swap matrices are unitary matrices of size 4x4. 
+      The swap matrices for nearest neighbors in our case look like:
+    </p>
+    <br>
+
+    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+        <msub>
+          <mi>U</mi>
+          <mrow data-mjx-texclass="ORD">
+            <mn>12</mn>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow data-mjx-texclass="INNER">
+          <mo data-mjx-texclass="OPEN">[</mo>
+          <mtable columnalign="center center center center" columnspacing="1em" rowspacing="4pt">
+            <mtr>
+              <mtd>
+                <msup>
+                  <mi>e</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mo>i</mo>
+                    <mfrac>
+                      <mi>π</mi>
+                      <mn>4</mn>
+                    </mfrac>
+                  </mrow>
+                </msup>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <msup>
+                  <mi>e</mi>
+                  <mrow data-mjx-texclass="ORD">
+                  <mo>i</mo>
+                    <mfrac>
+                      <mi>π</mi>
+                      <mn>4</mn>
+                    </mfrac>
+                  </mrow>
+                </msup>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <msup>
+                  <mi>e</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mo>-i</mo>
+                    <mfrac>
+                      <mi>π</mi>
+                      <mn>4</mn>
+                    </mfrac>
+                  </mrow>
+                </msup>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <mn>0</mn>
+              </mtd>
+              <mtd>
+                <msup>
+                  <mi>e</mi>
+                  <mrow data-mjx-texclass="ORD">
+                  <mo>-i</mo>
+                    <mfrac>
+                      <mi>π</mi>
+                      <mn>4</mn>
+                    </mfrac>
+                  </mrow>
+                </msup>
+              </mtd>
+            </mtr>
+          </mtable>
+          <mo data-mjx-texclass="CLOSE">]</mo>
+        </mrow>
+        <mo>;</mo>
+        <mstyle scriptlevel="0">
+          <mspace width="1em"></mspace>
+        </mstyle>
+        <msub>
+          <mi>U</mi>
+          <mrow data-mjx-texclass="ORD">
+            <mn>23</mn>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow data-mjx-texclass="INNER">
+          <mo data-mjx-texclass="OPEN">[</mo>
+          <mtable columnalign="center center center center" columnspacing="1em" rowspacing="4pt">
+            <mtr>
+              <mtd>
+                <mn style="margin: 2px;">1</mn>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">0</mn>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">0</mn>
+              </mtd>
+              <mtd>
+                <mo>-</mo>
+                <mi style="margin: 2px;">i</mi>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <mn style="margin: 2px;">0</mn>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">1</mn>
+              </mtd>
+              <mtd>
+                <mo style="margin: 2px;">-</mo>
+                <mi style="margin: 2px;">i</mi>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">0</mn>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <mn style="margin: 2px;">0</mn>
+              </mtd>
+              <mtd>
+                <mi style="margin: 2px;">i</mi>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">1</mn>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">0</mn>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <mi style="margin: 2px;">i</mi>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">0</mn>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">0</mn>
+              </mtd>
+              <mtd>
+                <mn style="margin: 2px;">1</mn>
+              </mtd>
+            </mtr>
+          </mtable>
+          <mo data-mjx-texclass="CLOSE">]</mo>
+        </mrow>
+        <mo>;</mo>
+    </math>
+
+    <br>
+    <p>
+      Other swaps are achieved by composing multiple such swaps. 
+      Thus, any swap of non-neighboring Majoranas can be achieved by sequential swaps of neighbors, 
+      and by combining such swaps, we obtain the desired operator.   
+    </p>
+    <br> 
+
+    <button type="button" class="collapsible" style="font-family: 'Outfit', sans-serif;"> ↓ Note ↓ </button>
+      <div class="content">
+        <p>The signs and row positions depend on the choice of convention. Here we used 
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mi>U</mi>
+              <mo>=</mo>
+              <mfrac>
+                <mn>1</mn>
+                <msqrt>
+                  <mn>2</mn>
+                </msqrt>
+              </mfrac>
+              <mrow data-mjx-texclass="INNER">
+                <mo data-mjx-texclass="OPEN">(</mo>
+                <mn>1</mn>
+                <mo>+</mo>
+                <msub>
+                  <mi>γ</mi>
+                  <mi>n</mi>
+                </msub>
+                <msub>
+                  <mi>γ</mi>
+                  <mi>n+1</mi>
+                </msub>
+                <mo data-mjx-texclass="CLOSE">)</mo>
+              </mrow>
+          </math>
+          and the ordering |00⟩ |01⟩ |10⟩ |11⟩, but other forms can also be found in the literature.</p>
+      </div>
+    <style>
+      .content {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+      }
+      .collapsible {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 5px;
+        width: 100%;
+        height: fit-content;
+        font-size: 15px;
+        border-radius: 0%;
+      }
+    </style>
+    <script>
+      var coll = document.getElementsByClassName("collapsible");
+      var i;
+      
+      for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.maxHeight){
+            content.style.maxHeight = null;
+          } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+          }
+        });
+      }
+    </script>
+
+    <hr style="margin-top: 0%;">    
+
+    <h3 style="margin-top: 0%; text-align: center;">Derivation</h3>
+
+    <p id="derivation-paragraph">
+      In our simulation, there are 4 Majoranas, which we interpret as the ends of two Kitaev chains, 
+      so we have a system of 2 qubits. The basic states of the system will be described using the occupancy of a specific 
+      fermion location (<math><msub><mi>c</mi><mn>1</mn></sub></math> and <math><msub><mi>c</mi><mn>2</mn></sub></math>). 
+      So:
+
+      <br><br>
+      <ul style="margin-left: 5%; font-family: serif;">
+          |00⟩ = none are occupied<br>
+          |01⟩ = the second one is occupied<br>
+          |10⟩ = the first one is occupied<br>
+          |11⟩ = both are occupied<br>
+      </ul>
+      <br><br>
+    </p>
+
+    <hr style="margin: 0%;">
+    <h4 style="margin-top: 20px;">SOURCES</h4>
+    <p>
+      [1] <a href="https://topocondmat.org/w2_majorana/braiding.html" target="_blank" style="color: #333;">https://topocondmat.org/w2_majorana/braiding.html</a> <br>
+      [2] D. Ivanov <i>Non-abelian statistics of half-quantum vortices in p-wave superconductors</i><br>
+      [3] C. Nayak, <i>et al.</i>, <i>Non-Abelian Anyons and Topological Quantum Computation</i><br>
+      [4] J. Alicea, <i>New directions in the pursuit of Majorana fermions in solid state systems</i><br>
+      [5] L. Kauffmana, S. Lomonaco, <i>Braiding With Majorana Fermions</i><br>
+      [6] M. Freedman, A. Kitaev, <i>et al.</i>, <i>Topological Quantum Computation</i><br>
+    </p>
+    <hr style="margin: 0%;">  
+    
+    <footer style="background-color: #f4f4f9; margin-top: 0%; padding: 1px;">
+      <p style="font-size: small; text-align: right; margin-right: 10px;">
+        Donata Butković, FER 2024.
+      </p>
+    </footer>
+
+</body>
+</html>
