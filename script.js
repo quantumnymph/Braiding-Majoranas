@@ -42,7 +42,7 @@ for (let i = 1; i < 4; i++) {
 const majoranas = [];
 let currentPositions = [];
 let indexMapping = Array.from({ length: N }, (_, i) => i); // Tracks logical indices to physical positions
-const colors = ["#0000FF", "#000099", "#800080", "#4B0082"];
+const colors = ["#ADD8E6", "#00008B", "#FFA500", "#FF0000"];
 
 // Initial positions
 for (let i = 0; i < N; i++) {
@@ -149,3 +149,4 @@ function startExchange() {
         }
     }, 50);
 }
+
